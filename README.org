@@ -1,0 +1,5 @@
+* spacetab
+
+I tired to fix spaces to tabs and tabs to spaces. I think that
+humanity should use only tabs but sometimes spaces also are
+needed. This package going to solve my problem.
