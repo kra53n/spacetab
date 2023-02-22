@@ -1,5 +1,23 @@
-* spacetab
+#+title: spacetab.el - escape from religious war
+#+author: Gregory Bakhtin <https://github.com/kra53n>
 
-I tired to fix spaces to tabs and tabs to spaces. I think that
-humanity should use only tabs but sometimes spaces also are
-needed. This package going to solve my problem.
+#+html: <a href="https://www.gnu.org/software/emacs/"><img alt="GNU Emacs" src="https://github.com/minad/corfu/blob/screenshots/emacs.svg?raw=true"/></a>
+
+#+html: <img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*GMezXdveSq6kZ2Vg.jpg" align="right" width="40%">
+
+I tired to fix spaces to tabs and tabs to spaces. Some projects use
+/tabs/, some /spaces/, some /both/. *spacetab.el* is a plugin that
+provides tools for quickly changing tabs to spaces and vice versa.
+
+** Functions
+
+- ~spacetab-delete-margin~
+
+- ~spacetab-paste-spaces~
+- ~spacetab-paste-tabs~
+
+- ~spacetab-set-spaces~
+- ~spacetab-set-tabs~
+
+- ~spacetab-spaces-to-tabs~
+- ~spacetab-tabs-to-spaces~
