@@ -11,6 +11,8 @@ provides tools for quickly changing tabs to spaces and vice versa.
 
 ** Functions
 
+*** For signle line
+
 - ~spacetab-delete-margin~
 
 - ~spacetab-paste-spaces~
@@ -21,3 +23,8 @@ provides tools for quickly changing tabs to spaces and vice versa.
 
 - ~spacetab-spaces-to-tabs~
 - ~spacetab-tabs-to-spaces~
+
+*** For region
+
+- ~spacetab-s2t~
+- ~spacetab-t2s~

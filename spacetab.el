@@ -25,6 +25,7 @@
 
 ;;; Code:
 
+;;;###autoload
 (defun spacetab-delete-margin ()
   (interactive)
   (beginning-of-line-text)
@@ -35,64 +36,104 @@
 (defun spacetab-paste-char (char num)
   (beginning-of-line)
   (let ((i 0))
-	(while (< i num)
-	  (insert char)
-	  (setq i (+ i 1)))))
+    (while (< i num)
+      (insert char)
+      (setq i (+ i 1)))))
 
 (defun spacetab-ask-num (prompt)
   (let ((num (string-to-number (read-from-minibuffer prompt))))
-	(if (and (integerp num) (> num 0))
-		num
-	  nil)))
+    (if (and (integerp num) (> num 0))
+    	num
+      nil)))
 
+;;;###autoload
 (defun spacetab-paste-spaces (&optional num)
   (interactive "P")
   (save-excursion
-	(spacetab-paste-char " " (or num (spacetab-ask-num "Spaces num: ") 0))))
+    (spacetab-paste-char " " (or num (spacetab-ask-num "Spaces num: ") 0))))
 
+;;;###autoload
 (defun spacetab-paste-tabs (&optional num)
   (interactive "P")
   (save-excursion
-	(spacetab-paste-char "\t" (or num (spacetab-ask-num "Tabs num: ") 0))))
+    (spacetab-paste-char "\t" (or num (spacetab-ask-num "Tabs num: ") 0))))
 
+;;;###autoload
 (defun spacetab-set-spaces (&optional num)
   (interactive "P")
   (save-excursion
-	(spacetab-delete-margin)
-	(spacetab-paste-char " " (or num (spacetab-ask-num "Spaces num: ") 0))))
+    (spacetab-delete-margin)
+    (spacetab-paste-char " " (or num (spacetab-ask-num "Spaces num: ") 0))))
 
+;;;###autoload
 (defun spacetab-set-tabs (&optional num)
   (interactive "P")
   (save-excursion
-	(spacetab-delete-margin)
-	(spacetab-paste-char "\t" (or num (spacetab-ask-num "Spaces num: ") 0))))
+    (spacetab-delete-margin)
+    (spacetab-paste-char "\t" (or num (spacetab-ask-num "Spaces num: ") 0))))
 
+;;;###autoload
 (defun spacetab-spaces-to-tabs (&optional indent-size)
   (interactive "P")
   (setq indent-size (or indent-size (spacetab-ask-num "Indent size: ")))
   (save-excursion
-	(beginning-of-line-text)
-	(let ((point-end (- (point) 1)))
-	  (beginning-of-line)
-	  (let ((point-start (point)))
-		(while (< point-start point-end)
-		  (goto-char point-start)
-		  (when (string= " " (char-to-string (char-after (point))))
-			(delete-forward-char indent-size)
-			(insert "\t"))
-		  (setq point-start (+ point-start 1)))))))
+    (beginning-of-line-text)
+    (let ((point-end (+ (point) 1)))
+      (beginning-of-line)
+      (let ((point-start (point)))
+    	(while (< point-start point-end)
+          (goto-char point-start)
+          (when (string= " " (char-to-string (char-after (point))))
+        	(delete-forward-char indent-size)
+        	(insert "\t"))
+          (setq point-start (+ point-start 1)))))))
 
+;;;###autoload
 (defun spacetab-tabs-to-spaces (&optional indent-size)
   (interactive "P")
   (setq indent-size (or indent-size (spacetab-ask-num "Indent size: ")))
   (save-excursion
-	(beginning-of-line-text)
-	(let ((point-end (+ (point) 1)))
-	  (beginning-of-line)
-	  (let ((point-start (point)))
-		(while (<= point-start point-end)
-		  (goto-char point-start)
-		  (when (string= "\t" (char-to-string (char-after (point))))
-			(delete-forward-char 1)
-			(spacetab-paste-char " " indent-size))
-		  (setq point-start (+ point-start 1)))))))
+    (beginning-of-line-text)
+    (let ((point-end (+ (point) 1)))
+      (beginning-of-line)
+      (let ((point-start (point)))
+    	(while (<= point-start point-end)
+          (goto-char point-start)
+          (when (string= "\t" (char-to-string (char-after (point))))
+        	(delete-forward-char 1)
+        	(spacetab-paste-char " " indent-size))
+          (setq point-start (+ point-start 1)))))))
+
+;;;###autoload
+(defun spacetab-s2t (beg end &optional indent-size)
+  (interactive "*r\nP")
+  (setq indent-size
+    	(or indent-size (spacetab-ask-num "Indent size: ")))
+  (unless (<= beg end)
+    (let (tmp)
+      (setq tmp beg beg end end tmp)))
+  (setq mark-active nil)
+  (save-excursion
+    (goto-char beg)
+    (while (< beg end)
+      (spacetab-spaces-to-tabs indent-size)
+      (next-line)
+      (setq beg (point)))))
+
+;;;###autoload
+(defun spacetab-t2s (beg end &optional indent-size)
+  (interactive "*r\nP")
+  (setq indent-size
+    	(or indent-size (spacetab-ask-num "Indent size: ")))
+  (unless (<= beg end)
+    (let (tmp)
+      (setq tmp beg beg end end tmp)))
+  (setq mark-active nil)
+  (save-excursion
+    (goto-char beg)
+    (while (< beg end)
+      (spacetab-tabs-to-spaces indent-size)
+	  (next-line)
+	  (setq beg (point)))))
+
+(provide 'spacetab)
